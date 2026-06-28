@@ -275,9 +275,16 @@ class HomeController extends Controller
             $why_choose_us = WhyChooseHeading::find($request->id);
             $why_choose_us->updated_at = date('Y-m-d h:i:s');
         }
+        if ($request->hasFile('image')) {
+            if ($request->id != 0 && File::exists($why_choose_us->image)) {
+                File::delete($why_choose_us->image);
+            }
+            $why_choose_us->image = uploadFile($request->image, 'why-choose-us', 'uploads/home/why_choose_us/');
+        }
         $why_choose_us->title = ($request->title)?$request->title:'';
         $why_choose_us->sub_title = ($request->sub_title)?$request->sub_title:'';
         $why_choose_us->description = ($request->description)?$request->description:'';
+        $why_choose_us->image_attribute = ($request->image_attribute)?$request->image_attribute:'';
         if($why_choose_us->save()){
             session()->flash('success', 'Why choose us content has been updated successfully');
             return redirect(sitePrefix().'home/why-choose-us');

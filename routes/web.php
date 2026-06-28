@@ -35,6 +35,7 @@ Route::get('/portfolio', [WebHome::class,'portfolio']);
 Route::get('/project/{short_url}', [WebHome::class,'portfolio_detail']);
 Route::get('/blogs', [WebHome::class,'blogs']);
 Route::get('/blog/{short_url}', [WebHome::class,'blog_detail']);
+Route::get('/team/{short_url}', [WebHome::class,'team_detail']);
 Route::get('/contact-us', [WebHome::class,'contact_us']);
 Route::post('contact-form-submit', [WebHome::class,'contact_store']);
 Route::post('/quote-form-submit', [WebHome::class,'getAQuoteStore']);

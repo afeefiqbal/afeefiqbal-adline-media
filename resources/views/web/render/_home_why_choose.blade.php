@@ -34,11 +34,11 @@
                         </div>
                     </div>
                 </div>
-                @if(isset($whatWeDo) && $whatWeDo && $whatWeDo->image)
+                @if($whyChooseHeading && $whyChooseHeading->image)
                     <div class="col-lg-5">
                         <div class="why-choose-image">
                             <figure class="image-anime reveal">
-                                <img src="{{ asset($whatWeDo->image) }}" {!! imageAltAttr($whatWeDo->image_attribute, strip_tags($whatWeDo->title ?? '')) !!}>
+                                <img src="{{ asset($whyChooseHeading->image) }}" {!! imageAltAttr($whyChooseHeading->image_attribute, strip_tags($whyChooseHeading->sub_title ?? '')) !!}>
                             </figure>
                         </div>
                     </div>

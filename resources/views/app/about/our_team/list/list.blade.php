@@ -43,6 +43,7 @@
                                         <th>#</th>
                                         <th>Name</th>
                                         <th>Designation</th>
+                                        <th>URL</th>
                                         <th>Sort Order</th>
                                         <th>Status</th>
                                         <th>Created Date</th>
@@ -55,6 +56,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{!! $slider->title !!}</td>
                                         <td>{!! $slider->designation !!}</td>
+                                        <td>{{ $slider->short_url }}</td>
                                         <td>
                                             <input type="text" name="sort_order" id="sort_order_{{$loop->iteration}}" data-extra="id"
                                                    data-extra_key="{{$slider->id}}" data-table="OurTeam"

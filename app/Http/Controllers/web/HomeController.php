@@ -79,7 +79,7 @@ class HomeController extends Controller
         $banner = Banner::where('type','About')->first();
         $about = AboutUs::first();
         $teamHeading = OurTeamHeading::first();
-        $teams = OurTeam::where('status','Active')->latest()->get();
+        $teams = OurTeam::where('status','Active')->orderBy('sort_order')->get();
         $whyChooseHeading = WhyChooseHeading::first();
         $whyChooseUs = WhyChooseUs::where('status','Active')->orderBy('sort_order')->take(4)->get();
         $keyFeatures = KeyFeature::where('status','Active')->orderBy('sort_order')->take(4)->get();
@@ -165,6 +165,16 @@ class HomeController extends Controller
         } else {
             return view('web.error.404');
         }
+    }
+
+    public function team_detail($short_url){
+        $member = OurTeam::where([['short_url', $short_url], ['status', 'Active']])->first();
+        if ($member) {
+            $meta_data = $this->seo_content(1, 'About');
+            return view('web.team_detail', compact('member', 'meta_data'));
+        }
+
+        return view('web.error.404');
     }
 
     public function contact_us(){

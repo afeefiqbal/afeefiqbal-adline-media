@@ -19,7 +19,7 @@
     </section>
     <section class="content">
         <div class="container-fluid">
-            <form role="form" id="formWizard" class="form--wizard" enctype="multipart/form-data"method="post">
+            <form role="form" id="formWizard" class="form--wizard" enctype="multipart/form-data" method="post">
                 {{csrf_field()}}
                 <div class="card card-info">
                   <div class="card-header">
@@ -27,7 +27,6 @@
                     <div class="card-tools">
                       <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
-                      </button>
                       </button>
                     </div>
                   </div>
@@ -44,30 +43,55 @@
                       </div>
                     @endif
                     <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label for="title">Title*</label>
-                            <input type="text" name="title" id="title" placeholder="Title" class="form-control required" autocomplete="off" value="{{ isset($list)?$list->title:'' }}" maxlength="255">
+                        <div class="form-group col-md-6">
+                            <label for="title">Name*</label>
+                            <input type="text" name="title" id="title" placeholder="Name" class="form-control required for_canonical_url" autocomplete="off" value="{{ isset($list)?$list->title:'' }}" maxlength="255">
                             <div class="help-block with-errors" id="title_error"></div>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label> Designation*</label>
-                            <input type="text" name="designation" id="designation" placeholder="Designation" class="form-control required" autocomplete="off" value="{{ isset($list)?$list->designation:'' }}" maxlength="255">
-                            <div class="help-block with-errors" id="designation_error"></div>
+                        <div class="form-group col-md-6">
+                            <label for="short_url">Canonical URL</label>
+                            <input type="text" name="short_url" id="short_url" placeholder="team-member-url" class="form-control" autocomplete="off" value="{{ isset($list)?$list->short_url:'' }}" maxlength="255">
+                            <small class="form-text text-muted">Leave blank to auto-generate from name.</small>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="image">Image*</label>
+                            <label>Designation*</label>
+                            <input type="text" name="designation" id="designation" placeholder="Designation" class="form-control required" autocomplete="off" value="{{ isset($list)?$list->designation:'' }}" maxlength="255">
+                            <div class="help-block with-errors" id="designation_error"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Experience</label>
+                            <input type="text" name="experience" id="experience" placeholder="e.g. 12 years" class="form-control" autocomplete="off" value="{{ isset($list)?$list->experience:'' }}" maxlength="255">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Email</label>
+                            <input type="email" name="email" id="email" placeholder="info@domain.com" class="form-control" autocomplete="off" value="{{ isset($list)?$list->email:'' }}" maxlength="255">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Phone</label>
+                            <input type="text" name="phone" id="phone" placeholder="+91 123 456 789" class="form-control" autocomplete="off" value="{{ isset($list)?$list->phone:'' }}" maxlength="255">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label>About</label>
+                            <textarea name="description" id="description" placeholder="About team member" class="form-control tinyeditor" autocomplete="off">{{ isset($list)?$list->description:'' }}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="image">Image{{ isset($list) ? '' : '*' }}</label>
                             <div class="file-loading">
                                 <input id="image" name="image" type="file" accept="image/*">
                             </div>
                             <span class="caption_note">Note: Image size must be 315 x 317</span>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="image_meta_tag">Image Meta Tag*</label>
-                            <input type="text" name="image_meta_tag" id="image_meta_tag" placeholder="Image Alternate Text" class="form-control required placeholder-cls" required autocomplete="off"value="{{ isset($list)?$list->image_meta_tag:'' }}" maxlength="255">
+                            <label for="image_attribute">Image Attribute</label>
+                            <input type="text" name="image_attribute" id="image_attribute" placeholder="Image Alternate Text" class="form-control placeholder-cls" autocomplete="off" value="{{ isset($list)?$list->image_attribute:'' }}" maxlength="255">
                         </div>
                     </div>
                     <div class="form-row">
@@ -94,7 +118,7 @@ $(document).ready(function(){
         removeLabel: "Remove",
         initialPreviewAsData: true,
         dropZoneEnabled: false,
-        required: true, 
+        required: {{ isset($list) && $list->image ? 'false' : 'true' }},
         allowedFileTypes: ['image'],
         minImageWidth: 315,
         minImageHeight: 317,
@@ -102,11 +126,11 @@ $(document).ready(function(){
         maxImageHeight: 317,
         showRemove: true,
         @if(isset($list) && $list->image!=NULL)
-          initialPreview: ["{{asset($list->image)}}",],
+          initialPreview: ["{{asset($list->image)}}"],
           initialPreviewConfig: [{
-              caption: "{{ ($list->image!=NULL)?$list->name:''}}",
+              caption: "{{ $list->title }}",
               width: "120px",
-              key: "{{($list->image)}}",
+              key: "{{ $list->image }}",
           }]
         @endif
     });

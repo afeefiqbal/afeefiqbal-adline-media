@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\app;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -136,8 +137,10 @@ class AboutController extends Controller
     public function list_store(Request $request)
     {
         $validatedData = $request->validate([
-            'title'=>'required',
-            'designation'=>'required'
+            'title' => 'required',
+            'designation' => 'required',
+            'short_url' => 'nullable|max:255',
+            'email' => 'nullable|email|max:255',
         ]);
         $list = new OurTeam;
         if ($request->hasFile('image')) {
@@ -145,6 +148,13 @@ class AboutController extends Controller
         }
         $list->title = $validatedData['title'];
         $list->designation = $validatedData['designation'];
+        $list->short_url = $this->teamShortUrl($request->short_url, $validatedData['title']);
+        $list->description = $request->description ?? '';
+        $list->email = $request->email ?? '';
+        $list->phone = $request->phone ?? '';
+        $list->experience = $request->experience ?? '';
+        $list->image_attribute = $request->image_attribute ?? '';
+        $list->status = 'Active';
         $sort_order = OurTeam::orderBy('sort_order', 'DESC')->first();
         if ($sort_order) {
             $sort_number = ($sort_order->sort_order + 1);
@@ -176,8 +186,10 @@ class AboutController extends Controller
     {
         $list =  OurTeam::find($id);
         $validatedData = $request->validate([
-            'title'=>'required',
-            'designation'=>'required'
+            'title' => 'required',
+            'designation' => 'required',
+            'short_url' => 'nullable|max:255',
+            'email' => 'nullable|email|max:255',
         ]);
         if ($request->hasFile('image')) {
             if (File::exists($list->image)) {
@@ -185,9 +197,14 @@ class AboutController extends Controller
             }
             $list->image = uploadFile($request->image, 'list', 'uploads/our-team/list/image/');
         }
-        $list->image_attribute = ($request->image_attribute)?$request->image_attribute:'';
         $list->title = $validatedData['title'];
         $list->designation = $validatedData['designation'];
+        $list->short_url = $this->teamShortUrl($request->short_url, $validatedData['title'], $list->id);
+        $list->description = $request->description ?? '';
+        $list->email = $request->email ?? '';
+        $list->phone = $request->phone ?? '';
+        $list->experience = $request->experience ?? '';
+        $list->image_attribute = $request->image_attribute ?? '';
         $list->updated_at = date('Y-m-d h:i:s');
         if($list->save()){
             session()->flash('success', "Team '".$request->title."' has been updated successfully");
@@ -217,5 +234,23 @@ class AboutController extends Controller
         }else{
             echo(json_encode(array('status'=>false,'message'=>'Empty value submitted')));
         }
+    }
+
+    private function teamShortUrl($shortUrl, $title, $excludeId = null)
+    {
+        $slug = Str::slug($shortUrl ?: $title);
+        $baseSlug = $slug ?: 'team-member';
+        $counter = 1;
+
+        while (OurTeam::where('short_url', $slug)
+            ->when($excludeId, function ($query) use ($excludeId) {
+                $query->where('id', '!=', $excludeId);
+            })
+            ->exists()) {
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
+        }
+
+        return $slug;
     }
 }

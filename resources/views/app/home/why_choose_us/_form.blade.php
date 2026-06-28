@@ -78,10 +78,23 @@
                                 <div class="help-block with-errors" id="description_error"></div>
                             </div>
                         </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label> Image</label>
+                                <div class="file-loading">
+                                    <input id="image" name="image" type="file" accept="image/*">
+                                </div>
+                                <span class="caption_note">Note: Image size must be 1242 x 777</span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label> Image Attribute</label>
+                                <input type="text" name="image_attribute" id="image_attribute" placeholder="Alt='Why choose us image'" class="form-control placeholder-cls" autocomplete="off" value="{{ isset($why_choose_us)?$why_choose_us->image_attribute:'' }}" maxlength="255">
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <input type="submit" id="btn_save" name="btn_save" value="Submit" class="btn btn-primary pull-left submitBtn">
-                        <input type="hidden" name="id" id="id" value="{{isset($what_we_do)?$what_we_do->id:''}}">
+                        <input type="hidden" name="id" id="id" value="{{ isset($why_choose_us)?$why_choose_us->id:0 }}">
                         <button type="reset" class="btn btn-default">Cancel</button>
                         <img class="animation__shake loadingImg" src="{{url('app/dist/img/loading.gif')}}" style="display:none;">
                     </div>
@@ -89,5 +102,34 @@
             </form>
         </div>
     </section>  
-</div>     
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#image").fileinput({
+        'theme': 'explorer-fas',
+        validateInitialCount: true,
+        overwriteInitial: false,
+        autoReplace: true,
+        layoutTemplates: {actionDelete: ''},
+        removeLabel: "Reset",
+        initialPreviewAsData: true,
+        dropZoneEnabled: false,
+        required: false,
+        allowedFileTypes: ['image'],
+        minImageWidth: 1242,
+        minImageHeight: 777,
+        maxImageWidth: 1242,
+        maxImageHeight: 777,
+        showRemove: true,
+        @if(isset($why_choose_us) && $why_choose_us->image!=NULL)
+            initialPreview: [
+                "{{asset($why_choose_us->image)}}",
+            ],
+            initialPreviewConfig: [
+                {caption: "{{ ($why_choose_us->image!=NULL)?$why_choose_us->sub_title:'';}}", width: "120px"}
+            ]
+        @endif
+    });
+});
+</script>
 @endsection

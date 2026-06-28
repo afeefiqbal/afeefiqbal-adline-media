@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class WhyChooseHeading extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'sub_title',
+        'description',
+        'image',
+        'image_attribute',
+    ];
 }
