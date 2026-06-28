@@ -1,0 +1,46 @@
+<IfModule mod_security.c>
+SecFilterEngine Off
+SecFilterScanPOST Off
+</IfModule>
+
+<IfModule mod_security2.c>
+SecRuleEngine Off
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+    </IfModule>
+
+    RewriteEngine On
+
+    RewriteCond %{REQUEST_FILENAME} -d [OR]
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ ^$1 [N]
+
+    RewriteCond %{REQUEST_URI} (\.\w+$) [NC]
+    RewriteRule ^(.*)$ public/$1 
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ server.php
+
+</IfModule>
+
+Redirect 301 /portfolio/exhibitions/ https://adlinemedia.sa/service/exhibition
+Redirect 301 /portfolio/premium-podiums/ https://adlinemedia.sa/service/premium-podiums
+Redirect 301 /portfolio/display-stands/ https://adlinemedia.sa/service/display-stands
+Redirect 301 /portfolio/signages/ https://adlinemedia.sa/service/signages
+Redirect 301 /portfolio/corporate-gifts/ https://adlinemedia.sa/service/corporate-gifts
+Redirect 301 /portfolio/3d-printing/ https://adlinemedia.sa/service/3d-printing
+Redirect 301 /portfolio/visual-effects/ https://adlinemedia.sa/service/audio-visual-engineering
+Redirect 301 /portfolio/experiential-marketing/ https://adlinemedia.sa/service/experiential-marketing
+Redirect 301 /portfolio/advertising-agency/ https://adlinemedia.sa/service/advertising
+Redirect 301 /service/exhibition/ https://adlinemedia.sa/service/exhibition-booth-design-saudi-arabia/booth-design
+Redirect 301 /service/display-stands/ https://adlinemedia.sa/service/display-stands-saudi-arabia
+Redirect 301 /service/event-management/ https://adlinemedia.sa/service/event-management-saudi-arabia
+Redirect 301 /service/advertising/ https://adlinemedia.sa/service/advertising-agency-saudi-arabia
+Redirect 301 /service/3d-printing/ https://adlinemedia.sa/service/3d-printing-saudi-arabia
+Redirect 301 /service/exhibition-booth-design-saudi-arabia/booth-designbooth-design/ https://adlinemedia.sa/service/exhibition-booth-design-saudi-arabia/booth-design
+Redirect 301 /service/corporate-gifts/ https://adlinemedia.sa/service/corporate-gifts-in-saudi-arabia
+Redirect 301 /blog/benefits-of-vehicle-branding-in-2024/ https://adlinemedia.sa/blog/the-charismatic-drive-unveiling-the-benefits-of-vehicle-branding-in-2025

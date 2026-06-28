@@ -1,0 +1,13 @@
+@extends('web.layouts.main')
+@section('content')
+    @include('web.render._home_hero')
+    @include('web.render._home_cta')
+    @include('web.render._home_who_we_are')
+    @include('web.render._home_services')
+    @include('web.render._home_why_choose')
+    @include('web.render._home_portfolio')
+    @include('web.render._home_testimonials')
+    @include('web.render._home_clients')
+    @include('web.render._home_faqs')
+    @include('web.render._home_blogs')
+@endsection
