@@ -6,7 +6,10 @@
         <div class="container">
             <div class="row">
                 @forelse($blogs as $blog)
-                    @include('web.render._blog_item', ['blog' => $blog])
+                    @include('web.render._blog_item', [
+                        'blog' => $blog,
+                        'appendClass' => $loop->last ? 'appendHere_'.$currentCount : '',
+                    ])
                 @empty
                     <div class="col-12"><p class="text-center">No blog posts available.</p></div>
                 @endforelse

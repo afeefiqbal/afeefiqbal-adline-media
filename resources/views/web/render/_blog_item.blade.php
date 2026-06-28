@@ -1,4 +1,4 @@
-<div class="col-lg-4 col-md-6">
+<div class="col-lg-4 col-md-6 {{ $appendClass ?? '' }}">
     <div class="post-item wow fadeInUp" @if(isset($loop) && !$loop->first) data-wow-delay="{{ $loop->index * 0.2 }}s" @endif>
         @if($blog->image)
             <div class="post-featured-image">

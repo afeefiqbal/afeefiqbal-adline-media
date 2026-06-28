@@ -37,7 +37,6 @@ $(document).ready(function () {
         var take_count = $(this).data('take_count');
         var currentCount = $('#currentCount').val();
         $('.loadMoreBtn').html('Please wait..!');
-        var nextCount = parseInt(currentCount) + take_count;
         $.ajax({
             type: 'POST',
             data: { offset: currentCount, _token: token, type: page_type },
@@ -47,8 +46,7 @@ $(document).ready(function () {
             url: base_url + '/loadMore',
             success: function (response) {
                 $('.appendHere_' + currentCount).after(response);
-                $('#loadMoreBtn_' + currentCount).hide();
-                $('#loadMoreBtn_' + nextCount).show();
+                $('#loadMoreBtn_' + currentCount).closest('.col-lg-12, .col-12').remove();
             }
         });
     });

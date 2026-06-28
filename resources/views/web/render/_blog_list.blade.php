@@ -1,7 +1,8 @@
 @foreach($data as $blog)
-    <div class="{{ ($loop->last) ? 'appendHere_'.$currentCount : '' }}">
-        @include('web.render._blog_item', ['blog' => $blog])
-    </div>
+    @include('web.render._blog_item', [
+        'blog' => $blog,
+        'appendClass' => $loop->last ? 'appendHere_'.$currentCount : '',
+    ])
 @endforeach
 @if($currentCount < App\Models\Blog::where('status','Active')->count())
     <div class="col-12 d-flex justify-content-center mt-4">
