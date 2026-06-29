@@ -19,6 +19,7 @@ use App\Models\AboutUs;
 use App\Models\OurTeamHeading;
 use App\Models\OurTeam;
 use App\Models\Banner;
+use App\Models\HomeBanner;
 use App\Models\BlogHeading;
 use App\Models\Contact;
 use App\Models\MetaTag;
@@ -57,6 +58,11 @@ class HomeController extends Controller
         }
     }
 
+    private function pageBanner($type)
+    {
+        return Banner::where([['type', $type], ['status', 'Active']])->first();
+    }
+
     public function home(){
         $homeSettings = HomeSetting::first();
         $keyFeatures = KeyFeature::where('status','Active')->orderBy('sort_order')->take(4)->get();
@@ -71,12 +77,13 @@ class HomeController extends Controller
         $faqHeading = FaqHeading::first();
         $faqs = Faq::where('status','Active')->orderBy('sort_order')->get();
         $blogs = Blog::where('status','Active')->orderBy('posted_date')->take(10)->get();
+        $homeBanners = HomeBanner::where('status','Active')->orderBy('sort_order')->get();
         $meta_data = $this->seo_content(1, 'Home');
-        return view('web.home', compact('homeSettings', 'keyFeatures','whatWeDo', 'whyChooseHeading', 'whyChooseUs', 'whoWeAre','portfolios', 'testimonials', 'clientHeading', 'clients', 'faqHeading', 'faqs', 'blogs', 'meta_data'));
+        return view('web.home', compact('homeSettings', 'keyFeatures','whatWeDo', 'whyChooseHeading', 'whyChooseUs', 'whoWeAre','portfolios', 'testimonials', 'clientHeading', 'clients', 'faqHeading', 'faqs', 'blogs', 'homeBanners', 'meta_data'));
     }
 
     public function about_us(){
-        $banner = Banner::where('type','About')->first();
+        $banner = $this->pageBanner('About');
         $about = AboutUs::first();
         $teamHeading = OurTeamHeading::first();
         $teams = OurTeam::where('status','Active')->orderBy('sort_order')->get();
@@ -96,9 +103,10 @@ class HomeController extends Controller
             ->orderBy('sort_order')
             ->get();
         $whatWeDo = WhatWeDo::first();
+        $banner = $this->pageBanner('Service');
         $meta_data = $this->seo_content(1, 'Home');
 
-        return view('web.services', compact('services', 'whatWeDo', 'meta_data'));
+        return view('web.services', compact('services', 'whatWeDo', 'banner', 'meta_data'));
     }
 
     public function service($parent_short_url, $short_url = null){
@@ -109,17 +117,18 @@ class HomeController extends Controller
         }
         if ($service) {
             $banner = $service;
+            $pageBanner = $this->pageBanner('Service');
             $servicesList = Service::where('status', 'Active')->with('sub')->orderBy('sort_order')->get();
             $faqs = ServiceFaq::where('service_id', $service->id)->where('status', 'Active')->orderBy('sort_order')->get();
             $meta_data = $this->seo_content(0, 'Service', $service->id);
-            return view('web.service_detail', compact('banner', 'service', 'servicesList', 'faqs', 'meta_data'));
+            return view('web.service_detail', compact('banner', 'pageBanner', 'service', 'servicesList', 'faqs', 'meta_data'));
         }
 
         return view('web.error.404');
     }
 
     public function portfolio(){
-        $banner = Banner::where('type','Portfolio')->first();
+        $banner = $this->pageBanner('Portfolio');
         $categorys = PortfolioCategory::where('status','Active')->with('portfolios','portfolios.thumbnail')->orderBy('sort_order')->get();
         $meta_data = $this->seo_content(1, 'Portfolio');
         return view('web.portfolio', compact('banner', 'categorys', 'meta_data'));
@@ -130,25 +139,26 @@ class HomeController extends Controller
         if ($portfolio) {
             // dd($portfolio);
             $banner = $portfolio;
+            $pageBanner = $this->pageBanner('Portfolio');
             $previousItem = Portfolio::where([['status','Active'],['id', '<', $portfolio->id]])->with('thumbnail')->orderBy('id','desc')->first();
             $nextItem = Portfolio::where([['status','Active'],['id', '>', $portfolio->id]])->with('thumbnail')->orderBy('id','asc')->first();
             $clients = Client::where('status','Active')->latest()->get();
             $clientHeading = OurClientHeading::first();
             $meta_data = $this->seo_content(0, 'Portfolio', $portfolio->id);
-            return view('web.portfolio_detail', compact('banner', 'previousItem', 'nextItem','portfolio', 'clientHeading', 'clients', 'meta_data'));
+            return view('web.portfolio_detail', compact('banner', 'pageBanner', 'previousItem', 'nextItem','portfolio', 'clientHeading', 'clients', 'meta_data'));
         } else {
             return view('web.error.404');
         }
     }
 
     public function policy(){
-        $banner = Banner::where('type','About')->first();
+        $banner = $this->pageBanner('Privacy');
         $meta_data = $this->seo_content(1, 'About');
 
         return view('web.privacy-policy', compact('meta_data',  'banner'));
     }
     public function blogs(){
-        $banner = Banner::where('type','Blog')->first();
+        $banner = $this->pageBanner('Blog');
         $blogs = Blog::where('status','Active')->latest()->take(3)->get();
         $currentCount = 3;
         $meta_data = $this->seo_content(1, 'Blog');
@@ -159,9 +169,10 @@ class HomeController extends Controller
         $blog = Blog::where([['short_url', $short_url],['status','Active']])->first();
         if ($blog) {
             $banner = $blog;
+            $pageBanner = $this->pageBanner('Blog');
             $recentBlogs = Blog::where('status','Active')->where('id', '!=', $blog->id)->latest('posted_date')->take(5)->get();
             $meta_data = $this->seo_content(0, 'Blog', $blog->id);
-            return view('web.blog_detail', compact('blog', 'banner', 'recentBlogs', 'meta_data'));
+            return view('web.blog_detail', compact('blog', 'banner', 'pageBanner', 'recentBlogs', 'meta_data'));
         } else {
             return view('web.error.404');
         }
@@ -170,15 +181,16 @@ class HomeController extends Controller
     public function team_detail($short_url){
         $member = OurTeam::where([['short_url', $short_url], ['status', 'Active']])->first();
         if ($member) {
+            $banner = $this->pageBanner('About');
             $meta_data = $this->seo_content(1, 'About');
-            return view('web.team_detail', compact('member', 'meta_data'));
+            return view('web.team_detail', compact('member', 'banner', 'meta_data'));
         }
 
         return view('web.error.404');
     }
 
     public function contact_us(){
-        $banner = Banner::where('type','Contact')->first();
+        $banner = $this->pageBanner('Contact');
         $meta_data = $this->seo_content(1, 'Contact');
         $officeAddress = OfficeAddress::where('status','Active')->orderBy('sort_order')->get();
         $homeSettings = HomeSetting::first();

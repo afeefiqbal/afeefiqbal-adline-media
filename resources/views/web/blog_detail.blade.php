@@ -2,6 +2,7 @@
 @section('content')
     @include('web.render._page_header', [
         'pageTitle' => $blog->title,
+        'banner' => $pageBanner ?? null,
         'headerClass' => 'fontSize40',
         'pageMeta' => '<ol class="breadcrumb"><li><i class="fa-regular fa-user"></i> Admin</li><li><i class="fa-regular fa-clock"></i> '.date('d M Y', strtotime($blog->posted_date)).'</li></ol>'
     ])

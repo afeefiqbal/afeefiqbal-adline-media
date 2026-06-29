@@ -2,6 +2,7 @@
 @section('content')
     @include('web.render._page_header', [
         'pageTitle' => $member->title,
+        'banner' => $banner ?? null,
         'breadcrumb' => '<li class="breadcrumb-item"><a href="'.url('about-us').'">about us</a></li><li class="breadcrumb-item active" aria-current="page">'.strtolower($member->title).'</li>',
     ])
 

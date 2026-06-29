@@ -19,7 +19,7 @@ class BannerController extends Controller
     
     public function banner_store(Request $request)
     {
-        $type_array = array('About','Portfolio','Blog','Contact','Privacy','Terms');
+        $type_array = array('About','Service','Portfolio','Blog','Contact','Privacy','Terms');
         if(in_array($request->type,$type_array)){
             if($request->id==0){
                 $banner = new Banner;

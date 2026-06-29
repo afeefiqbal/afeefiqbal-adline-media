@@ -1,6 +1,6 @@
 @extends('web.layouts.main')
 @section('content')
-    @include('web.render._page_header', ['pageTitle' => 'About us'])
+    @include('web.render._page_header', ['pageTitle' => 'About us', 'banner' => $banner ?? null])
 
     @if($about)
         <div class="about-us">

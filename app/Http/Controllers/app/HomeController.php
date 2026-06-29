@@ -16,6 +16,7 @@ use App\Models\OurClientHeading;
 use App\Models\FaqHeading;
 use App\Models\Faq;
 use App\Models\PortfolioCategory;
+use App\Models\HomeBanner;
 
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\File;
@@ -119,6 +120,115 @@ class HomeController extends Controller
         $settings->save();
         session()->flash('success', 'Section icons updated successfully');
         return redirect(sitePrefix().'home/hero');
+    }
+
+    public function slider()
+    {
+        $title = 'Banner Images';
+        $sliderList = HomeBanner::orderBy('sort_order')->get();
+
+        return view('app.home.slider.slider_list', compact('sliderList', 'title'));
+    }
+
+    public function slider_create()
+    {
+        $key = 'Add';
+        $title = 'Add Banner';
+
+        return view('app.home.slider.slider_form', compact('key', 'title'));
+    }
+
+    public function slider_store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'image_meta_tag' => 'required|max:255',
+            'image' => 'required|image',
+        ]);
+
+        $slider = new HomeBanner;
+        if ($request->hasFile('image')) {
+            $slider->image = uploadFile($request->image, 'home-slider', 'uploads/home/slider/image/');
+        }
+        $slider->title = $request->title ?? '';
+        $slider->sub_title = $request->sub_title ?? '';
+        $slider->image_meta_tag = $validatedData['image_meta_tag'];
+        $slider->button_text = $request->button_text ?? '';
+        $slider->button_url = $request->button_url ?? '';
+        $slider->status = 'Active';
+        $sortOrder = HomeBanner::orderBy('sort_order', 'DESC')->first();
+        $slider->sort_order = $sortOrder ? ($sortOrder->sort_order + 1) : 1;
+
+        if ($slider->save()) {
+            session()->flash('success', 'Banner image has been added successfully');
+            return redirect(sitePrefix().'home/slider');
+        }
+
+        return back()->withInput($request->input())->withErrors('Error while adding the banner image');
+    }
+
+    public function slider_edit($id)
+    {
+        $key = 'Update';
+        $title = 'Update Banner';
+        $slider = HomeBanner::find($id);
+
+        if ($slider) {
+            return view('app.home.slider.slider_form', compact('slider', 'title', 'key'));
+        }
+
+        return view('app.errors.404');
+    }
+
+    public function slider_update(Request $request, $id)
+    {
+        $slider = HomeBanner::find($id);
+        $validatedData = $request->validate([
+            'image_meta_tag' => 'required|max:255',
+        ]);
+
+        if ($request->hasFile('image')) {
+            if ($slider->image && File::exists($slider->image)) {
+                File::delete($slider->image);
+            }
+            $slider->image = uploadFile($request->image, 'home-slider', 'uploads/home/slider/image/');
+        }
+
+        $slider->title = $request->title ?? '';
+        $slider->sub_title = $request->sub_title ?? '';
+        $slider->image_meta_tag = $validatedData['image_meta_tag'];
+        $slider->button_text = $request->button_text ?? '';
+        $slider->button_url = $request->button_url ?? '';
+        $slider->updated_at = date('Y-m-d h:i:s');
+
+        if ($slider->save()) {
+            session()->flash('success', 'Banner image has been updated successfully');
+            return redirect(sitePrefix().'home/slider');
+        }
+
+        return back()->withInput($request->input())->withErrors('Error while updating the banner image');
+    }
+
+    public function delete_slider(Request $request)
+    {
+        if (isset($request->id) && $request->id != null) {
+            $slider = HomeBanner::find($request->id);
+            if ($slider) {
+                $image = $slider->image;
+                $deleted = $slider->delete();
+                if ($deleted == true) {
+                    if ($image && File::exists($image)) {
+                        File::delete($image);
+                    }
+                    echo json_encode(['status' => true]);
+                } else {
+                    echo json_encode(['status' => false, 'message' => 'Some error occured,please try after sometime']);
+                }
+            } else {
+                echo json_encode(['status' => false, 'message' => 'Model class not found']);
+            }
+        } else {
+            echo json_encode(['status' => false, 'message' => 'Empty value submitted']);
+        }
     }
 
     public function key_feature()

@@ -1,4 +1,13 @@
-<div class="page-header bg-section dark-section">
+@php
+    $pageBanner = $banner ?? null;
+    $hasPageBanner = $pageBanner && $pageBanner->banner && $pageBanner->status === 'Active';
+@endphp
+<div class="page-header bg-section dark-section {{ $hasPageBanner ? 'page-header-has-banner' : '' }}">
+    @if($hasPageBanner)
+        <div class="page-header-bg">
+            <img src="{{ asset($pageBanner->banner) }}" {!! imageAltAttr($pageBanner->banner_meta_tag, $pageBanner->title ?: $pageTitle) !!}>
+        </div>
+    @endif
     <div class="container">
         <div class="row">
             <div class="col-lg-12">

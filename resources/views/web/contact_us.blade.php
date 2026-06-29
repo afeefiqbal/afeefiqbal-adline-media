@@ -7,7 +7,7 @@
             ->values();
     @endphp
 
-    @include('web.render._page_header', ['pageTitle' => 'Contact us'])
+    @include('web.render._page_header', ['pageTitle' => 'Contact us', 'banner' => $banner ?? null])
 
     <div class="page-contact-us">
         <div class="container">

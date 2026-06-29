@@ -123,6 +123,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
             Route::post('cta-icons', [HomeController::class,'cta_icons_update']);
         });
 
+        Route::group(['prefix' => 'slider'], function () {
+            Route::get('/', [HomeController::class,'slider']);
+            Route::get('create', [HomeController::class,'slider_create']);
+            Route::post('create', [HomeController::class,'slider_store']);
+            Route::get('edit/{id}', [HomeController::class,'slider_edit']);
+            Route::post('edit/{id}', [HomeController::class,'slider_update']);
+            Route::post('delete', [HomeController::class,'delete_slider']);
+        });
+
         Route::group(['prefix' => 'key-feature'], function () {
             Route::get('/', [HomeController::class,'key_feature']);
             Route::get('create', [HomeController::class,'key_feature_create']);

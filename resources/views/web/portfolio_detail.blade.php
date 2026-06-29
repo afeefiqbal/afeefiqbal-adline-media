@@ -6,6 +6,7 @@
 @section('content')
     @include('web.render._page_header', [
         'pageTitle' => 'Portfolio',
+        'banner' => $pageBanner ?? null,
         'breadcrumb' => '<li class="breadcrumb-item"><a href="'.url('portfolio').'">Portfolio</a></li><li class="breadcrumb-item active" aria-current="page">'.$portfolio->title.'</li>'
     ])
 

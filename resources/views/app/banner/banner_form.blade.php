@@ -85,7 +85,7 @@ $(document).ready(function(){
         removeLabel: "Remove",
         initialPreviewAsData: true,
         dropZoneEnabled: false,
-        required: true, 
+        required: {{ (isset($banner) && $banner->banner) ? 'false' : 'true' }},
         showRemove: true,       
         minImageWidth: 1651,
         minImageHeight: 390,

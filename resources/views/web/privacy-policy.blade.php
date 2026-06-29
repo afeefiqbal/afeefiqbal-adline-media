@@ -1,6 +1,6 @@
 @extends('web.layouts.main')
 @section('content')
-    @include('web.render._page_header', ['pageTitle' => 'Privacy Policy'])
+    @include('web.render._page_header', ['pageTitle' => 'Privacy Policy', 'banner' => $banner ?? null])
 
     <div class="page-service-single">
         <div class="container">

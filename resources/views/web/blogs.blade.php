@@ -1,6 +1,6 @@
 @extends('web.layouts.main')
 @section('content')
-    @include('web.render._page_header', ['pageTitle' => 'Latest blog'])
+    @include('web.render._page_header', ['pageTitle' => 'Latest blog', 'banner' => $banner ?? null])
 
     <div class="page-blog">
         <div class="container">

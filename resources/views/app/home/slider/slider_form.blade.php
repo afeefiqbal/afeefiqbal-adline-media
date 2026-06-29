@@ -103,7 +103,7 @@ $(document).ready(function(){
         removeLabel: "Remove",
         initialPreviewAsData: true,
         dropZoneEnabled: false,
-        required: true, 
+        required: {{ (isset($slider) && $slider->image) ? 'false' : 'true' }},
         allowedFileTypes: ['image'],
         minImageWidth: 1651,
         minImageHeight: 650,

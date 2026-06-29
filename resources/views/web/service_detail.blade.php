@@ -2,6 +2,7 @@
 @section('content')
     @include('web.render._page_header', [
         'pageTitle' => $service->title,
+        'banner' => $pageBanner ?? null,
         'breadcrumb' => '<li class="breadcrumb-item"><a href="'.url('service').'">services</a></li><li class="breadcrumb-item active" aria-current="page">'.$service->title.'</li>'
     ])
 

@@ -22,6 +22,12 @@
       </a>
     </li>
     <li class="nav-item">
+      <a href="{{url(sitePrefix().'home/slider')}}" class="nav-link {{ (Request::segment(3)=='slider')?'active':'' }}">
+        <i class="far fa-circle nav-icon"></i>
+        <p>Banner Images</p>
+      </a>
+    </li>
+    <li class="nav-item">
       <a href="{{url(sitePrefix().'home/key-feature')}}" class="nav-link {{ (Request::segment(3)=='key-feature')?'active':'' }}">
         <i class="far fa-circle nav-icon"></i>
         <p>Key Features</p>
