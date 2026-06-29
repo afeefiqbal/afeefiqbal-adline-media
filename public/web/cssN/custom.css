@@ -973,6 +973,34 @@ header.main-header .header-sticky.active{
 	display: block;
 }
 
+.hero-section.hero-bg-image.hero-slider-layout .hero-slide .hero-slider-video{
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	z-index: 0;
+}
+
+.hero-section.hero-bg-image.hero-slider-layout .hero-slide .hero-slider-video video{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.hero-section.hero-bg-image.hero-slider-layout .hero-slide.hero-slide-video::after{
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	background: #2A2665;
+	opacity: 0.35;
+	z-index: 1;
+}
+
 .hero-section.hero-bg-image.hero-slider-layout .hero-slide .container{
 	position: relative;
 	z-index: 2;

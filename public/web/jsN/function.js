@@ -36,18 +36,39 @@
 
 	/* Hero Slider Layout JS */
 	if ($('.hero-slider-layout').length) {
+		const heroSlideCount = $('.hero-slider-layout .swiper-slide').length;
 		const hero_slider_layout = new Swiper('.hero-slider-layout .swiper', {
 			slidesPerView : 1,
 			speed: 1000,
 			spaceBetween: 0,
 			autoHeight: true,
-			loop: $('.hero-slider-layout .swiper-slide').length > 1,
-			autoplay: $('.hero-slider-layout .swiper-slide').length > 1 ? {
-				delay: 4000,
+			loop: heroSlideCount > 1,
+			autoplay: heroSlideCount > 1 ? {
+				delay: 5000,
 			} : false,
 			pagination: {
 				el: '.hero-pagination',
 				clickable: true,
+			},
+			on: {
+				init: function () {
+					$('.hero-slider-video video').each(function () {
+						this.pause();
+					});
+					const activeVideo = this.slides[this.activeIndex].querySelector('video');
+					if (activeVideo) {
+						activeVideo.play();
+					}
+				},
+				slideChange: function () {
+					$('.hero-slider-video video').each(function () {
+						this.pause();
+					});
+					const activeVideo = this.slides[this.activeIndex].querySelector('video');
+					if (activeVideo) {
+						activeVideo.play();
+					}
+				},
 			},
 		});
 	}
