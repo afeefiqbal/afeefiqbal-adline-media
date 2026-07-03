@@ -91,8 +91,10 @@
                             <div class="contact-info-item wow fadeInUp" @if(!$loop->first) data-wow-delay="{{ $loop->index * 0.2 }}s" @endif>
                                 <div class="contact-info-content">
                                     <div class="icon-boxFlag">
-                                        <img src="images/locationImg-03.png" alt="">
-                                    </div>   
+                                        @if($oAddress->image)
+                                            <img src="{{ asset($oAddress->image) }}" {!! imageAltAttr($oAddress->image_attribute, $oAddress->title) !!}>
+                                        @endif
+                                    </div>
                                     <h2 class="fw-bold color-white">{{ $oAddress->title }}</h2>
                                     @if($oAddress->address)
                                         <p class="mt-4">{!! $oAddress->address !!}</p>

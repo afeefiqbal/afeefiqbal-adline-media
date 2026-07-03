@@ -294,7 +294,7 @@
     <li class="nav-item">
       <a href="{{url(sitePrefix().'contact/office-address')}}" class="nav-link {{ (Request::segment(3)=='office-address')?'active':'' }}">
         <i class="far fa-circle nav-icon"></i>
-        <p>Office Address </p>
+        <p>We Are Located At</p>
       </a>
     </li> 
   </ul>

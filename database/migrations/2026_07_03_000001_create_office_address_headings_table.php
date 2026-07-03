@@ -19,7 +19,7 @@ return new class extends Migration
             });
 
             DB::table('office_address_headings')->insert([
-                'title' => 'Who We Are',
+                'title' => 'We Are Located At',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

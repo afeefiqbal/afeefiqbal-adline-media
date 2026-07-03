@@ -10,4 +10,14 @@ class OfficeAddress extends Model
     use SoftDeletes;
     
     protected $table = 'office_address';
+
+    protected $fillable = [
+        'title',
+        'mobile',
+        'address',
+        'image',
+        'image_attribute',
+        'status',
+        'sort_order',
+    ];
 }

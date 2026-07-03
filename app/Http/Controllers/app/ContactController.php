@@ -257,9 +257,10 @@ class ContactController extends Controller
 
     public function office_address()
     {
-        $title = "Address List";
+        $title = "We Are Located At";
         $officeAddress = OfficeAddress::get();
-        return view('app.contact_us.office_address.list',compact('officeAddress','title'));
+
+        return view('app.contact_us.office_address.list', compact('officeAddress', 'title'));
     }
 
     public function office_address_create()
@@ -277,9 +278,13 @@ class ContactController extends Controller
             'address'=>'required',
         ]);
         $office_address = new OfficeAddress;
+        if ($request->hasFile('image')) {
+            $office_address->image = uploadFile($request->image, 'office-address', 'uploads/contact/office_address/image/');
+        }
         $office_address->title = $validatedData['title'];
         $office_address->mobile = $validatedData['mobile'];
         $office_address->address = $validatedData['address'];
+        $office_address->image_attribute = $request->image_attribute ?? '';
         $sort_order = OfficeAddress::orderBy('sort_order', 'DESC')->first();
         if ($sort_order) {
             $sort_number = ($sort_order->sort_order + 1);
@@ -314,10 +319,17 @@ class ContactController extends Controller
             'title'=>'required',
             'address'=>'required',
             'mobile'=>'required',
-        ]);     
+        ]);
+        if ($request->hasFile('image')) {
+            if ($office_address->image && File::exists($office_address->image)) {
+                File::delete($office_address->image);
+            }
+            $office_address->image = uploadFile($request->image, 'office-address', 'uploads/contact/office_address/image/');
+        }
         $office_address->title = $validatedData['title'];
         $office_address->mobile = $validatedData['mobile'];
         $office_address->address = $validatedData['address'];
+        $office_address->image_attribute = $request->image_attribute ?? '';
         $office_address->updated_at = date('Y-m-d h:i:s');
         if($office_address->save()){
             session()->flash('success', "Address '".$request->title."' has been updated successfully");
@@ -332,6 +344,9 @@ class ContactController extends Controller
             $office_address = OfficeAddress::find($request->id);
             if($office_address){
                 DB::beginTransaction();
+                if ($office_address->image && File::exists($office_address->image)) {
+                    File::delete($office_address->image);
+                }
                 $deleted = $office_address->delete();
                 if($deleted==true){
                     DB::commit();

@@ -10,7 +10,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{url(sitePrefix().loggedUserType().'dashboard')}}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{url(sitePrefix().'contact/office-address')}}">Address</a></li>
+                        <li class="breadcrumb-item"><a href="{{url(sitePrefix().'contact/office-address')}}">We Are Located At</a></li>
                         <li class="breadcrumb-item active">{{$title}}</li>
                     </ol>
                 </div>
@@ -70,6 +70,19 @@
                                 <div class="help-block with-errors" id="address_error"></div>
                             </div>
                         </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Location Icon / Image</label>
+                                <div class="file-loading">
+                                    <input id="image" name="image" type="file" accept="image/*">
+                                </div>
+                                <span class="caption_note">Shown in the location slider on the home page</span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Image Attribute (Alt Text)</label>
+                                <input type="text" name="image_attribute" id="image_attribute" placeholder="Alt text for location image" class="form-control" autocomplete="off" value="{{ isset($office_address)?$office_address->image_attribute:'' }}" maxlength="255">
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <input type="submit" id="btn_save" name="btn_save" data-id="{{isset($office_address)?$office_address->id:''}}"value="Submit" class="btn btn-primary pull-left submitBtn">
@@ -82,4 +95,28 @@
         </div>
     </section>  
 </div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#image").fileinput({
+        'theme': 'explorer-fas',
+        validateInitialCount: true,
+        overwriteInitial: false,
+        autoReplace: true,
+        layoutTemplates: {actionDelete: ''},
+        removeLabel: "Remove",
+        initialPreviewAsData: true,
+        dropZoneEnabled: false,
+        required: false,
+        allowedFileTypes: ['image'],
+        showRemove: true,
+        @if(isset($office_address) && $office_address->image)
+            initialPreview: ["{{ asset($office_address->image) }}"],
+            initialPreviewConfig: [{
+                caption: "{{ $office_address->title }}",
+                width: "120px"
+            }]
+        @endif
+    });
+});
+</script>
 @endsection
