@@ -1,8 +1,9 @@
 @if($homeServices->isNotEmpty())
     <div class="our-services bg-section bg-prim">
         <div class="container">
-            <div class="row section-row align-items-center">
-                <div class="col-lg-12">
+            <!--section-row align-items-center-->
+            <div class="row pb-3">
+                <div class="col-lg-6">
                     <div class="section-title section-title-center">
                         @if(isset($whatWeDo) && $whatWeDo && $whatWeDo->title)
                             <h3 class="wow fadeInUp color-white">{{ $whatWeDo->title }}</h3>
@@ -15,8 +16,17 @@
                         @endif
                     </div>
                 </div>
+                <div class="col-lg-6">
+                    <div class="about-us-image position-sticky" style="padding:0; margin:0;">
+                        <div class="about-img-1 w-100">
+                            <figure class="image-anime reveal" style="transform: translate(0px, 0px); opacity: 1; visibility: inherit;">
+                                <img class="w-100" src="https://hexagroupsintl.com/Adlinedev/uploads/who-we-are/image/list-2.png" alt="Who We Are" style="transform: translate(0px, 0px);">
+                            </figure>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="row">
+            <div class="row mt-5">
                 <div class="col-lg-12">
                     <div class="services-slider">
                         <div class="swiper">
@@ -36,9 +46,9 @@
                                             @endif
                                             <div class="service-item">
                                                 @if($service->image && $service->image !== $serviceImage)
-                                                    <div class="icon-box">
-                                                        <img src="{{ asset($service->image) }}" {!! imageAltAttr($service->image_meta_tag, $service->title) !!}>
-                                                    </div>
+                                                    <!--<div class="icon-box">-->
+                                                    <!--    <img src="{{ asset($service->image) }}" {!! imageAltAttr($service->image_meta_tag, $service->title) !!}>-->
+                                                    <!--</div>-->
                                                 @endif
                                                 <div class="service-content">
                                                     <h3><a href="{{ url('service/'.$service->short_url) }}">{{ $service->title }}</a></h3>

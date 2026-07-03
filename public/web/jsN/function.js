@@ -128,6 +128,36 @@
 			}
 		});
 	}
+	
+	
+	/* Location Slider JS */
+	if ($('.location-slider').length) {
+		const services_slider = new Swiper('.location-slider .swiper', {
+			slidesPerView : 1,
+			speed: 1000,
+			spaceBetween: 15,
+			loop: true,
+			autoplay: {
+				delay: 5000,
+			},
+			pagination: {
+				el: '.portfolio-pagination',
+				clickable: true,
+			},
+			breakpoints: {
+				575:{
+					slidesPerView: 2,
+				},
+				991:{
+					slidesPerView: 3,
+				},
+				1199:{
+					slidesPerView: 4,
+				}
+			}
+		});
+	}
+	
 
 	/* testimonial Slider JS */
 	if ($('.testimonial-slider').length) {

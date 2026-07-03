@@ -50,7 +50,7 @@
                                         <img src="{{ asset($whoWeAre->count_icon) }}" {!! imageAltAttr($whoWeAre->count_icon_attribute, 'Team members') !!}>
                                     @endif
                                     <h2><span class="counter">{{ $countData['value'] }}</span>{{ $countData['plus'] }}</h2>
-                                    <p>Team members</p>
+                                    <p>Years Of Experience</p>
                                 </div>
                             @endif
                         </div>

@@ -27,13 +27,107 @@
     {!! isset($meta_data) ? $meta_data->other_meta_tag : '' !!}
     {!! isset($extra_meta_data) ? $extra_meta_data->header_tag : '' !!}
     @yield('styles')
+    
+    
+    <style>
+        .main-header {
+                position: sticky !important;
+                top: 0px;
+        }
+        
+        
+        @media (max-width:1199.98px){
+            .main-menu ul li a{
+                font-size: 15px;       
+            }        
+        }
+        
+        @media (max-width:1099.98px){
+            .main-menu ul li a{
+                font-size: 14px;     
+                padding: 14px 10px !important;
+            }        
+        }
+        
+        @media (min-width:992px){
+            .btnMobile{
+                display: none !important;
+            }
+        }
+        
+        .btnBoxSp{
+            display: flex;
+            grid-gap: 10px;
+            align-items: center;
+        }
+        
+        .btnBoxSp .btn-default{
+            font-size: 15px;
+        }
+        
+        @media (max-width:991.98px){
+            .submenu .nav-link svg{
+                display: none;
+            }
+            
+            .submenu-list .nav-link{
+                padding: 8px 20px 8px 20px;
+            }
+            
+            .btnMobile{
+                display: flex !important;
+            }
+        }
+        
+        @media (max-width:766.98px){
+            .btnBoxSp .btn-default{
+                font-size: 14px;
+            }
+        
+        }
+        
+        @media (max-width:575px){
+            
+            
+            .navbar-brand{
+                max-width: 135px;
+            }
+            
+            .btnBoxSp .btn-default{
+                padding: 13px 10px;
+                font-size: 12px;
+            }
+            
+            .btnBoxSp .btn-default::before{
+                display: none;
+            }
+        
+        }
+        
+        @media (max-width:329.98px){
+            .navbar-brand{
+                max-width: 125px;
+            }
+        }
+        
+        .hero-section.hero-bg-image.hero-slider-layout .hero-slide.hero-slide-video::after{
+            opacity: 0;
+        } 
+        
+        .contact-info .about-us-image{
+               padding: 0 0px 58px 0;
+        }
+        
+        .about-us-image.position-sticky{
+               top: 140px; 
+        }
+    
+    
+    </style>
+    
 </head>
 <body class="active-sticky-header">
-    <div class="preloader">
-        <div class="loading-container">
-            <div class="loading"></div>
-        </div>
-    </div>
+    
 
     {!! isset($extra_meta_data) ? $extra_meta_data->body_tag : '' !!}
     @include('web.includes.menu')

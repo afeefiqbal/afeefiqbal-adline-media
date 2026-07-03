@@ -20,7 +20,7 @@
                             <div class="swiper-slide">
                                 <div class="hero-slide hero-slide-video">
                                     <div class="hero-slider-video">
-                                        <video autoplay muted loop playsinline>
+                                        <video autoplay muted loop playsinline no>
                                             <source src="{{ asset($homeSettings->hero_video) }}" type="video/mp4">
                                         </video>
                                     </div>
