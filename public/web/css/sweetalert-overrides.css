@@ -1,9 +1,15 @@
 /*------------------------------------*\
     SWEET ALERT
 \*------------------------------------*/
+/* Above Bootstrap modal (1055) so alerts are not hidden behind Request Quote */
+.sweet-overlay {
+    z-index: 20000 !important;
+}
+
 .sweet-alert {
     padding: 50px 20px;
     border-radius: 4px;
+    z-index: 20001 !important;
 }
 
 .sweet-alert h2 {

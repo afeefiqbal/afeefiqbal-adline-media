@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="{{ asset('web/cssN/mousecursor.css') }}">
     <link rel="stylesheet" href="{{ asset('web/cssN/twentytwenty.css') }}">
     <link href="{{ asset('web/cssN/custom.css') }}" rel="stylesheet" media="screen">
+    <link href="{{ asset('web/css/sweetalert.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('web/css/sweetalert-overrides.css') }}" rel="stylesheet">
     {!! isset($meta_data) ? $meta_data->other_meta_tag : '' !!}
     {!! isset($extra_meta_data) ? $extra_meta_data->header_tag : '' !!}
     @yield('styles')

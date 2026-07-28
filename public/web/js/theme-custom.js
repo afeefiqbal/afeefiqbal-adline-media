@@ -102,6 +102,13 @@ $(document).ready(function () {
                         success: function (response) {
                             $('.submit-form-btn').html(btn_value);
                             if (response.status == true) {
+                                var requestModalEl = document.getElementById('requestModal');
+                                if (requestModalEl && typeof bootstrap !== 'undefined') {
+                                    var requestModal = bootstrap.Modal.getInstance(requestModalEl);
+                                    if (requestModal) {
+                                        requestModal.hide();
+                                    }
+                                }
                                 swal({
                                     title: 'Success',
                                     text: response.message || 'Entry has been submitted successfully',
@@ -118,8 +125,8 @@ $(document).ready(function () {
                                 }
                                 swal({
                                     title: 'Error',
-                                    text: response.message,
-                                    type: response.status === false ? 'error' : response.status
+                                    text: response.message || 'Something went wrong. Please try again.',
+                                    type: 'error'
                                 });
                             }
                         }
